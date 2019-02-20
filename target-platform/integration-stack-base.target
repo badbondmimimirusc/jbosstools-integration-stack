@@ -75,12 +75,11 @@
     <!-- JBoss Tools Core Tests -->
     <location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 
-      <!-- Required by BPEL -->
+    <!-- Required by BPEL -->
       <unit id="org.jboss.tools.tests" version="0.0.0"/>
 
       <repository location="http://download.jboss.org/jbosstools/updates/nightly/coretests/4.0.juno/"/>
 
     </location>
-
   </locations>
 </target>
