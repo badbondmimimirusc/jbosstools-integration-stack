@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
    Create a mylyn-style directory XML file which identifies the Integration Stack central discovery plugin.
    This build infrastructure is for testing purposes only.
 -->
+
 <project default="basic.build" name="discovery directory.xml builder">
-  <!--
+
+	<!--
      To test output, run maven in this folder:
 
      $ mvn clean install -DPREFIX=jbosstools-integration-stack -DVERSION=4.0.0 -DBUILD_TYPE=integration -DBUILD_TS=v20130212-1234 \
@@ -47,6 +50,7 @@ $java.home = ${java.home}
   </target>
 
   <!-- Initialize, generate the *directory.xml, cleanup. -->
+	
   <target name="basic.build" description="discovery plugin build extra processing steps" depends="init,generate.directory.xml,cleanup" />
 
   <target name="get.ant-contrib" unless="ant-contrib.jar.exists">
@@ -60,10 +64,12 @@ $java.home = ${java.home}
   </target>
 
   <target name="generate.directory.xml">
+	  
     <echo level="debug">project.build.directory = ${project.build.directory}</echo>
 
     <!-- Extract the file name matching the integration stack discovery jar (i.e) org.jboss.tools.central.discovery.integration-stack_4.0.0.integration-v20130212-1334-B99.jar -->
-    <if><equals arg1="${BUILD_FORM}" arg2="community" trim="true" /><then>
+    
+	  <if><equals arg1="${BUILD_FORM}" arg2="community" trim="true"/><then>
 	<property name="central.discovery.is.jar.id" value="org.jboss.tools.central.discovery.integration-stack-${VERSION}-SNAPSHOT.jar" />
 	<property name="discovery_jar_target_dir" value="${project.build.directory}/../../org.jboss.tools.central.discovery.integration-stack/target/" />
 	<property name="output.url" value="http://download.jboss.org/jbosstools/discovery/${BUILD_TYPE}/integration-stack/${VERSION}/" />
@@ -91,12 +97,14 @@ $java.home = ${java.home}
 	<mkdir dir="${project.build.directory}/plugins"/>
 
 	<!-- Rename and copy the integration stack discovery jar. -->
+	    
 	<propertyregex override="true" property="central.discovery.is.jar.renamed" defaultvalue="${central.discovery.is.jar}" input="${central.discovery.is.jar}" 
 		       regexp="-[0-9.]+-SNAPSHOT" replace="_${VERSION}.${BUILD_ALIAS}-${BUILD_TS}-B${BUILD_NUMBER}"/>
 	<copy file="${central.discovery.is.path}" tofile="${project.build.directory}/plugins/${central.discovery.is.jar.renamed}"/>
 	<echo level="verbose">Generate ${project.build.directory}/${PREFIX}-directory.xml pointing at discovery jar: ${project.build.directory}/plugins/${central.discovery.is.jar.renamed}</echo>
 
 	<!-- Extract the core central discovery jar from the stable JBoss tools directory XML file. -->
+	    
 	<property name="CORE_JBOSSTOOLS_TEMP_DIR" value="${tmpdir}/jbosstools-directory" />
 	<mkdir dir="${CORE_JBOSSTOOLS_TEMP_DIR}" />
 	<get usetimestamp="true" dest="${CORE_JBOSSTOOLS_TEMP_DIR}/jbosstools-directory.xml" src="${JBOSSTOOLS_DIRECTORY_XML}" />
@@ -105,6 +113,7 @@ $java.home = ${java.home}
 	<echo level="verbose">Extracted core JBoss tools discovery jar: ${entry.url}</echo>
 
 	<!-- Create the Integration Stack directory XML file. -->
+	    
 	<echo file="${project.build.directory}/plugins/${PREFIX}-directory.xml">&lt;?xml version='1.0' encoding='UTF-8'?>
 &lt;directory xmlns="http://www.eclipse.org/mylyn/discovery/directory/">
 &lt;entry url="${entry.url}" permitCategories="true"/>
@@ -112,7 +121,6 @@ $java.home = ${java.home}
 &lt;/directory>
         </echo>
     </then></if>
-
   </target>
 
   <target name="cleanup">
